@@ -10,6 +10,7 @@ export default function Hero() {
   const membraneRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const revealRef = useRef<HTMLDivElement>(null);
+  const glowRef = useRef<HTMLHeadingElement>(null);
   const noiseRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
 
@@ -28,17 +29,6 @@ export default function Hero() {
     const scrollHint = scrollHintRef.current;
     if (!hero || !membrane || !text || !reveal) return;
 
-    // Initial: neon edge highlights visible on emboss
-    gsap.set(text, {
-      color: "#111",
-      textShadow: [
-        "2px 2px 4px rgba(0,0,0,0.9)",
-        "-2px -1px 6px #00e5ff35",
-        "1px -2px 6px #bf00ff30",
-        "-1px 1px 5px #00ff8828",
-      ].join(", "),
-    });
-
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
@@ -54,81 +44,43 @@ export default function Hero() {
       tl.to(scrollHint, { opacity: 0, duration: 0.05, ease: "none" }, 0);
     }
 
-    // Stage 1 (0 → 0.15): Membrane push — neon glow strengthens
-    tl.to(
-      text,
-      {
-        textShadow: [
-          "2px 2px 5px rgba(0,0,0,0.9)",
-          "-2px -1px 8px #00e5ff55",
-          "1px -2px 8px #bf00ff48",
-          "-1px 1px 7px #00ff8840",
-        ].join(", "),
-        duration: 0.15,
-        ease: "power1.in",
-      },
-      0
-    );
+    const glow = glowRef.current;
+
+    // Stage 1 (0 → 0.25): Membrane push + glow intensifies
     tl.to(
       membrane,
-      { scale: 1.04, duration: 0.15, ease: "power1.in", force3d: true },
+      { scale: 1.15, duration: 0.25, ease: "power1.in", force3d: true },
       0
     );
+    if (glow) {
+      tl.to(
+        glow,
+        { opacity: 1, duration: 0.25, ease: "power2.in" },
+        0
+      );
+    }
 
-    // Stage 2 (0.15 → 0.30): Neon intensifies
-    tl.to(
-      text,
-      {
-        textShadow: [
-          "3px 3px 5px rgba(0,0,0,0.95)",
-          "-3px -2px 12px #00e5ff80",
-          "-3px 1px 12px #bf00ff75",
-          "2px -2px 10px #00ff8870",
-          "0px 3px 10px #ff00aa60",
-        ].join(", "),
-        duration: 0.15,
-        ease: "power2.in",
-      },
-      0.15
-    );
-    tl.to(
-      membrane,
-      { scale: 1.15, duration: 0.15, ease: "power2.in", force3d: true },
-      0.15
-    );
-
-    // Stage 3 (0.30 → 0.65): Zoom through — neon at peak then text fades as we punch in
+    // Stage 2 (0.25 → 0.60): Zoom through — text fades, noise fades, membrane scales up
     const noise = noiseRef.current;
     if (noise) {
       tl.to(
         noise,
-        { opacity: 0, duration: 0.10, ease: "power1.in" },
-        0.30
+        { opacity: 0, duration: 0.10, ease: "none" },
+        0.25
       );
     }
     tl.to(
       text,
-      {
-        textShadow: [
-          "4px 4px 6px rgba(0,0,0,0.95)",
-          "-4px -3px 18px #00e5ffa0",
-          "-4px 2px 18px #bf00ff95",
-          "4px -3px 16px #00ff8890",
-          "0px 5px 16px #ff00aa80",
-        ].join(", "),
-        opacity: 0,
-        duration: 0.20,
-        ease: "power2.in",
-      },
-      0.30
+      { opacity: 0, duration: 0.15, ease: "power2.in" },
+      0.25
     );
     tl.to(
       membrane,
       { scale: 14, duration: 0.35, ease: "power2.in", force3d: true },
-      0.30
+      0.25
     );
 
-    // Stage 4 (0.50 → 0.85): Product reveal — overlaps with zoom for cross-fade
+    // Stage 3 (0.50 → 0.85): Product reveal — overlaps with zoom for cross-fade
     tl.to(
       reveal,
       { opacity: 1, duration: 0.35, ease: "power2.out" },
@@ -159,20 +111,41 @@ export default function Hero() {
             }}
           />
 
-          {/* "HEX" — embossed with neon-colored highlight edges */}
-          <h1
-            ref={textRef}
-            className="relative select-none font-display"
-            style={{
-              fontSize: "clamp(8rem, 22vw, 20rem)",
-              fontWeight: 900,
-              letterSpacing: "-0.02em",
-              lineHeight: 1,
-              color: "#111",
-            }}
-          >
-            HEX
-          </h1>
+          {/* "HEX" — embossed base + neon glow layer */}
+          <div ref={textRef} className="relative select-none">
+            {/* Base emboss — always visible */}
+            <h1
+              className="font-display"
+              style={{
+                fontSize: "clamp(8rem, 22vw, 20rem)",
+                fontWeight: 900,
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+                color: "#111",
+                textShadow:
+                  "2px 2px 4px rgba(0,0,0,0.9), -2px -1px 6px #00e5ff35, 1px -2px 6px #bf00ff30, -1px 1px 5px #00ff8828",
+              }}
+            >
+              HEX
+            </h1>
+            {/* Bright neon glow — fades in via opacity for the "intensify" effect */}
+            <h1
+              ref={glowRef}
+              aria-hidden="true"
+              className="absolute inset-0 font-display opacity-0"
+              style={{
+                fontSize: "clamp(8rem, 22vw, 20rem)",
+                fontWeight: 900,
+                letterSpacing: "-0.02em",
+                lineHeight: 1,
+                color: "#111",
+                textShadow:
+                  "3px 3px 5px rgba(0,0,0,0.95), -3px -2px 14px #00e5ff90, -3px 1px 14px #bf00ff85, 2px -2px 12px #00ff8880, 0px 3px 12px #ff00aa70",
+              }}
+            >
+              HEX
+            </h1>
+          </div>
         </div>
 
         {/* Product reveal */}
