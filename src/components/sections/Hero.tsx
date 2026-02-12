@@ -10,6 +10,7 @@ export default function Hero() {
   const membraneRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
   const revealRef = useRef<HTMLDivElement>(null);
+  const noiseRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -97,6 +98,14 @@ export default function Hero() {
     );
 
     // Stage 3 (0.30 → 0.65): Zoom through — neon at peak then text fades as we punch in
+    const noise = noiseRef.current;
+    if (noise) {
+      tl.to(
+        noise,
+        { opacity: 0, duration: 0.10, ease: "power1.in" },
+        0.30
+      );
+    }
     tl.to(
       text,
       {
@@ -108,22 +117,22 @@ export default function Hero() {
           "0px 5px 16px #ff00aa80",
         ].join(", "),
         opacity: 0,
-        duration: 0.35,
+        duration: 0.20,
         ease: "power2.in",
       },
       0.30
     );
     tl.to(
       membrane,
-      { scale: 30, duration: 0.35, ease: "power2.in", force3d: true },
+      { scale: 14, duration: 0.35, ease: "power2.in", force3d: true },
       0.30
     );
 
-    // Stage 4 (0.65 → 1.0): Product reveal
+    // Stage 4 (0.50 → 0.85): Product reveal — overlaps with zoom for cross-fade
     tl.to(
       reveal,
       { opacity: 1, duration: 0.35, ease: "power2.out" },
-      0.65
+      0.50
     );
 
     return () => {
@@ -141,6 +150,7 @@ export default function Hero() {
         >
           {/* Surface noise */}
           <div
+            ref={noiseRef}
             className="absolute inset-0 opacity-[0.035]"
             style={{
               backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.5'/%3E%3C/svg%3E")`,
@@ -168,7 +178,7 @@ export default function Hero() {
         {/* Product reveal */}
         <div
           ref={revealRef}
-          className="absolute inset-0 flex items-center bg-hex-black px-6 opacity-0 md:px-10"
+          className="absolute inset-0 flex items-center bg-hex-black px-6 md:px-10 opacity-0"
         >
           <div className="mx-auto max-w-6xl w-full">
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
