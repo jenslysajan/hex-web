@@ -8,7 +8,7 @@ export default function BuySection() {
     <section className="px-6 py-24 md:px-10" id="buy">
       <div className="mx-auto max-w-6xl">
         <motion.h2
-          className="text-center font-heading text-3xl font-bold text-white md:text-5xl"
+          className="font-heading text-center text-3xl font-bold text-white md:text-5xl"
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -16,7 +16,7 @@ export default function BuySection() {
         >
           Get yours
         </motion.h2>
-        <p className="mx-auto mt-4 max-w-md text-center text-hex-gray-400">
+        <p className="text-hex-gray-400 mx-auto mt-4 max-w-md text-center">
           Our first product. Designed and assembled in India. Shipping soon.
         </p>
 

@@ -36,7 +36,7 @@ export default function WhatsComingSection() {
       {SHAPES.map((shape, i) => (
         <motion.div
           key={i}
-          className="pointer-events-none absolute text-hex-gray-700"
+          className="text-hex-gray-700 pointer-events-none absolute"
           style={{ left: shape.x, top: shape.y }}
           animate={{
             y: [0, -20, 0],
@@ -77,18 +77,16 @@ export default function WhatsComingSection() {
           {FUTURE_PRODUCTS.map((product, i) => (
             <motion.div
               key={product.title}
-              className="group rounded-2xl border border-hex-gray-800 bg-hex-gray-900/50 p-6 backdrop-blur-sm"
+              className="group border-hex-gray-800 bg-hex-gray-900/50 rounded-2xl border p-6 backdrop-blur-sm"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: i * 0.15 }}
             >
               {/* Silhouette placeholder */}
-              <div className="mx-auto mb-4 h-24 w-24 rounded-xl bg-hex-gray-800/80" />
-              <h3 className="font-heading text-lg font-semibold text-white">
-                {product.title}
-              </h3>
-              <p className="mt-1 text-sm text-hex-gray-400">{product.hint}</p>
+              <div className="bg-hex-gray-800/80 mx-auto mb-4 h-24 w-24 rounded-xl" />
+              <h3 className="font-heading text-lg font-semibold text-white">{product.title}</h3>
+              <p className="text-hex-gray-400 mt-1 text-sm">{product.hint}</p>
             </motion.div>
           ))}
         </div>

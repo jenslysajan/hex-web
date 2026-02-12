@@ -13,10 +13,10 @@ const LINES = [
 
 export default function Story() {
   return (
-    <section className="relative px-6 py-24 md:px-10 scanlines">
+    <section className="scanlines relative px-6 py-24 md:px-10">
       <div className="mx-auto max-w-3xl">
         <motion.h2
-          className="font-heading text-2xl font-bold text-hex-cream md:text-4xl"
+          className="font-heading text-hex-cream text-2xl font-bold md:text-4xl"
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -29,7 +29,7 @@ export default function Story() {
           {LINES.map((line, i) => (
             <motion.p
               key={i}
-              className="text-lg leading-relaxed text-hex-cream-dark md:text-xl"
+              className="text-hex-cream-dark text-lg leading-relaxed md:text-xl"
               initial={{ opacity: 0, x: -20 }}
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
@@ -52,7 +52,7 @@ export default function Story() {
         >
           <Link
             href="/about"
-            className="mt-10 inline-block text-sm font-semibold text-hex-red transition-colors hover:text-hex-red-dark"
+            className="text-hex-red hover:text-hex-red-dark mt-10 inline-block text-sm font-semibold transition-colors"
           >
             Read more about us &rarr;
           </Link>

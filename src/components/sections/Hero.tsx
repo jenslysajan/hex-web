@@ -17,9 +17,7 @@ export default function Hero() {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
-    const prefersReduced = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (prefersReduced) return;
 
     const hero = heroRef.current;
@@ -44,48 +42,24 @@ export default function Hero() {
     const noise = noiseRef.current;
 
     // Stage 1 (0 → 0.20): Membrane push + glow intensifies
-    tl.to(
-      membrane,
-      { scale: 1.15, duration: 0.20, ease: "power1.in", force3d: true },
-      0
-    );
+    tl.to(membrane, { scale: 1.15, duration: 0.2, ease: "power1.in", force3d: true }, 0);
     if (glow) {
-      tl.to(
-        glow,
-        { opacity: 1, duration: 0.20, ease: "power2.in" },
-        0
-      );
+      tl.to(glow, { opacity: 1, duration: 0.2, ease: "power2.in" }, 0);
     }
 
     // Stage 2 (0.20 → 0.65): Text keeps expanding — no fade out!
     // Noise fades early since it doesn't look good zoomed in
     if (noise) {
-      tl.to(
-        noise,
-        { opacity: 0, duration: 0.08, ease: "none" },
-        0.20
-      );
+      tl.to(noise, { opacity: 0, duration: 0.08, ease: "none" }, 0.2);
     }
     // Membrane (with text inside) scales massively — text stays fully visible
-    tl.to(
-      membrane,
-      { scale: 18, duration: 0.45, ease: "power2.in", force3d: true },
-      0.20
-    );
+    tl.to(membrane, { scale: 18, duration: 0.45, ease: "power2.in", force3d: true }, 0.2);
 
     // Stage 3 (0.40 → 0.58): Black overlay fades in once we see the middle bar of E
-    tl.to(
-      blackout,
-      { opacity: 1, duration: 0.18, ease: "power2.in" },
-      0.40
-    );
+    tl.to(blackout, { opacity: 1, duration: 0.18, ease: "power2.in" }, 0.4);
 
     // Stage 4 (0.58 → 0.88): Product reveal fades in on top of the black layer
-    tl.to(
-      reveal,
-      { opacity: 1, duration: 0.30, ease: "power2.out" },
-      0.58
-    );
+    tl.to(reveal, { opacity: 1, duration: 0.3, ease: "power2.out" }, 0.58);
 
     return () => {
       tl.kill();
@@ -94,7 +68,7 @@ export default function Hero() {
 
   return (
     <section aria-label="Hero">
-      <div ref={heroRef} className="relative h-screen w-full overflow-hidden bg-hex-black">
+      <div ref={heroRef} className="bg-hex-black relative h-screen w-full overflow-hidden">
         <div
           ref={membraneRef}
           className="absolute inset-0 flex items-center justify-center"
@@ -132,7 +106,7 @@ export default function Hero() {
             <h1
               ref={glowRef}
               aria-hidden="true"
-              className="absolute inset-0 font-display opacity-0"
+              className="font-display absolute inset-0 opacity-0"
               style={{
                 fontSize: "clamp(8rem, 22vw, 20rem)",
                 fontWeight: 900,
@@ -151,39 +125,34 @@ export default function Hero() {
         {/* Black overlay — fades in when zoomed to just the E middle bar */}
         <div
           ref={blackoutRef}
-          className="absolute inset-0 bg-hex-black opacity-0"
+          className="bg-hex-black absolute inset-0 opacity-0"
           style={{ zIndex: 2 }}
         />
 
         {/* Product reveal */}
         <div
           ref={revealRef}
-          className="absolute inset-0 flex items-center bg-hex-black px-6 md:px-10 opacity-0"
+          className="bg-hex-black absolute inset-0 flex items-center px-6 opacity-0 md:px-10"
           style={{ zIndex: 3 }}
         >
-          <div className="mx-auto max-w-6xl w-full">
+          <div className="mx-auto w-full max-w-6xl">
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
-              <PlaceholderImage
-                label="LED strip on gaming desk"
-                mood="cool"
-                className="w-full"
-              />
+              <PlaceholderImage label="LED strip on gaming desk" mood="cool" className="w-full" />
               <div>
                 <h2 className="font-heading text-3xl font-bold text-white md:text-5xl">
                   Cool tech for India.
                   <br />
                   <span className="text-hex-red">Built here, by us.</span>
                 </h2>
-                <p className="mt-6 max-w-md text-base leading-relaxed text-hex-gray-300">
-                  We&apos;re not importing generic strips and slapping a logo on
-                  them. Hex LED strips are designed for Indian homes, Indian
-                  voltages, and Indian weather — with an app that actually works.
+                <p className="text-hex-gray-300 mt-6 max-w-md text-base leading-relaxed">
+                  We&apos;re not importing generic strips and slapping a logo on them. Hex LED
+                  strips are designed for Indian homes, Indian voltages, and Indian weather — with
+                  an app that actually works.
                 </p>
               </div>
             </div>
           </div>
         </div>
-
       </div>
     </section>
   );

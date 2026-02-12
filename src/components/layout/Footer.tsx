@@ -3,18 +3,15 @@ import { BRAND, NAV_LINKS } from "@/lib/constants";
 
 export default function Footer() {
   return (
-    <footer className="border-t border-hex-gray-800 bg-hex-black px-6 py-12 md:px-10">
+    <footer className="border-hex-gray-800 bg-hex-black border-t px-6 py-12 md:px-10">
       <div className="mx-auto max-w-6xl">
         <div className="flex flex-col gap-8 md:flex-row md:items-start md:justify-between">
           {/* Logo + tagline */}
           <div>
-            <Link
-              href="/"
-              className="font-heading text-2xl font-bold tracking-tight text-white"
-            >
+            <Link href="/" className="font-heading text-2xl font-bold tracking-tight text-white">
               hex
             </Link>
-            <p className="mt-2 text-sm text-hex-gray-400">Built in India</p>
+            <p className="text-hex-gray-400 mt-2 text-sm">Built in India</p>
           </div>
 
           {/* Nav links */}
@@ -23,7 +20,7 @@ export default function Footer() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-sm text-hex-gray-400 transition-colors hover:text-white"
+                className="text-hex-gray-400 text-sm transition-colors hover:text-white"
               >
                 {link.label}
               </Link>
@@ -36,13 +33,13 @@ export default function Footer() {
               href={BRAND.instagram}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-sm text-hex-gray-400 transition-colors hover:text-white"
+              className="text-hex-gray-400 text-sm transition-colors hover:text-white"
             >
               Instagram
             </a>
             <a
               href={`mailto:${BRAND.email}`}
-              className="text-sm text-hex-gray-400 transition-colors hover:text-white"
+              className="text-hex-gray-400 text-sm transition-colors hover:text-white"
             >
               Email
             </a>
@@ -50,8 +47,8 @@ export default function Footer() {
         </div>
 
         {/* Copyright */}
-        <div className="mt-10 border-t border-hex-gray-800 pt-6">
-          <p className="font-mono text-xs text-hex-gray-400">
+        <div className="border-hex-gray-800 mt-10 border-t pt-6">
+          <p className="text-hex-gray-400 font-mono text-xs">
             &copy; {new Date().getFullYear()} Hex. All rights reserved.
           </p>
         </div>

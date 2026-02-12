@@ -26,7 +26,7 @@ export default function PlaceholderImage({
       className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${gradients[mood]} ${aspectRatio} ${className}`}
     >
       {label && (
-        <span className="absolute inset-0 flex items-center justify-center text-sm text-hex-gray-400 font-mono">
+        <span className="text-hex-gray-400 font-body absolute inset-0 flex items-center justify-center text-sm">
           {label}
         </span>
       )}

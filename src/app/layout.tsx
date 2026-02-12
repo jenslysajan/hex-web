@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { spaceGrotesk, inter, jetbrainsMono, nunito } from "@/lib/fonts";
+import { plusJakarta, plusJakartaHeading, jetbrainsMono, nunito } from "@/lib/fonts";
 import GSAPProvider from "@/components/animations/GSAPProvider";
 import "./globals.css";
 
@@ -17,7 +17,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${inter.variable} ${jetbrainsMono.variable} ${nunito.variable}`}
+      className={`${plusJakarta.variable} ${plusJakartaHeading.variable} ${jetbrainsMono.variable} ${nunito.variable}`}
     >
       <body className="bg-background text-foreground antialiased">
         <GSAPProvider>{children}</GSAPProvider>

@@ -43,25 +43,21 @@ export default function ProductReveal() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex min-h-screen items-center bg-hex-black px-6 py-24 md:px-10 -mt-1"
+      className="bg-hex-black relative -mt-1 flex min-h-screen items-center px-6 py-24 md:px-10"
     >
-      <div ref={contentRef} className="mx-auto max-w-6xl w-full opacity-0">
+      <div ref={contentRef} className="mx-auto w-full max-w-6xl opacity-0">
         <div className="grid gap-10 md:grid-cols-2 md:items-center">
-          <PlaceholderImage
-            label="LED strip on gaming desk"
-            mood="cool"
-            className="w-full"
-          />
+          <PlaceholderImage label="LED strip on gaming desk" mood="cool" className="w-full" />
           <div>
             <h2 className="font-heading text-3xl font-bold text-white md:text-5xl">
               Cool tech for India.
               <br />
               <span className="text-hex-red">Built here, by us.</span>
             </h2>
-            <p className="mt-6 max-w-md text-base leading-relaxed text-hex-gray-300">
-              We&apos;re not importing generic strips and slapping a logo on
-              them. Hex LED strips are designed for Indian homes, Indian
-              voltages, and Indian weather — with an app that actually works.
+            <p className="text-hex-gray-300 mt-6 max-w-md text-base leading-relaxed">
+              We&apos;re not importing generic strips and slapping a logo on them. Hex LED strips
+              are designed for Indian homes, Indian voltages, and Indian weather — with an app that
+              actually works.
             </p>
           </div>
         </div>

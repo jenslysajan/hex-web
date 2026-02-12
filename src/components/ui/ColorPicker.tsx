@@ -30,8 +30,7 @@ export default function ColorPicker({ value, onChange }: ColorPickerProps) {
             className="h-8 w-8 rounded-full border-2 transition-transform hover:scale-110"
             style={{
               backgroundColor: swatch.hex,
-              borderColor:
-                value === swatch.hex ? "white" : "transparent",
+              borderColor: value === swatch.hex ? "white" : "transparent",
             }}
             aria-label={swatch.name}
           />

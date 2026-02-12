@@ -1,14 +1,15 @@
-import { Space_Grotesk, Inter, JetBrains_Mono, Nunito } from "next/font/google";
+import { Plus_Jakarta_Sans, JetBrains_Mono, Nunito } from "next/font/google";
 
-export const spaceGrotesk = Space_Grotesk({
+export const plusJakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-heading",
+  variable: "--font-body",
   display: "swap",
 });
 
-export const inter = Inter({
+export const plusJakartaHeading = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-body",
+  variable: "--font-heading",
+  weight: ["700", "800"],
   display: "swap",
 });
 
