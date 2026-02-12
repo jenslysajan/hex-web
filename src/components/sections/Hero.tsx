@@ -158,16 +158,10 @@ export default function Hero() {
         {/* Product reveal */}
         <div
           ref={revealRef}
-          className="absolute inset-0 bg-hex-black px-6 md:px-10 opacity-0"
+          className="absolute inset-0 flex items-center bg-hex-black px-6 md:px-10 opacity-0"
           style={{ zIndex: 3 }}
         >
-          {/* Nav HEX — fades in with the product reveal */}
-          <div className="py-4">
-            <span className="font-display text-xl font-black tracking-tight text-white">
-              HEX
-            </span>
-          </div>
-          <div className="mx-auto max-w-6xl w-full flex items-center" style={{ height: "calc(100% - 3.5rem)" }}>
+          <div className="mx-auto max-w-6xl w-full">
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
               <PlaceholderImage
                 label="LED strip on gaming desk"
