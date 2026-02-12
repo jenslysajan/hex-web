@@ -12,6 +12,7 @@ export default function Hero() {
   const revealRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLHeadingElement>(null);
   const noiseRef = useRef<HTMLDivElement>(null);
+  const blackoutRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,14 +27,15 @@ export default function Hero() {
     const membrane = membraneRef.current;
     const text = textRef.current;
     const reveal = revealRef.current;
+    const blackout = blackoutRef.current;
     const scrollHint = scrollHintRef.current;
-    if (!hero || !membrane || !text || !reveal) return;
+    if (!hero || !membrane || !text || !reveal || !blackout) return;
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
         start: "top top",
-        end: "+=150%",
+        end: "+=200%",
         pin: true,
         scrub: 0.3,
         anticipatePin: 1,
@@ -45,46 +47,50 @@ export default function Hero() {
     }
 
     const glow = glowRef.current;
+    const noise = noiseRef.current;
 
-    // Stage 1 (0 → 0.25): Membrane push + glow intensifies
+    // Stage 1 (0 → 0.20): Membrane push + glow intensifies
     tl.to(
       membrane,
-      { scale: 1.15, duration: 0.25, ease: "power1.in", force3d: true },
+      { scale: 1.15, duration: 0.20, ease: "power1.in", force3d: true },
       0
     );
     if (glow) {
       tl.to(
         glow,
-        { opacity: 1, duration: 0.25, ease: "power2.in" },
+        { opacity: 1, duration: 0.20, ease: "power2.in" },
         0
       );
     }
 
-    // Stage 2 (0.25 → 0.60): Zoom through — text fades, noise fades, membrane scales up
-    const noise = noiseRef.current;
+    // Stage 2 (0.20 → 0.65): Text keeps expanding — no fade out!
+    // Noise fades early since it doesn't look good zoomed in
     if (noise) {
       tl.to(
         noise,
-        { opacity: 0, duration: 0.10, ease: "none" },
-        0.25
+        { opacity: 0, duration: 0.08, ease: "none" },
+        0.20
       );
     }
-    tl.to(
-      text,
-      { opacity: 0, duration: 0.15, ease: "power2.in" },
-      0.25
-    );
+    // Membrane (with text inside) scales massively — text stays fully visible
     tl.to(
       membrane,
-      { scale: 14, duration: 0.35, ease: "power2.in", force3d: true },
-      0.25
+      { scale: 18, duration: 0.45, ease: "power2.in", force3d: true },
+      0.20
     );
 
-    // Stage 3 (0.50 → 0.85): Product reveal — overlaps with zoom for cross-fade
+    // Stage 3 (0.40 → 0.58): Black overlay fades in once we see the middle bar of E
+    tl.to(
+      blackout,
+      { opacity: 1, duration: 0.18, ease: "power2.in" },
+      0.40
+    );
+
+    // Stage 4 (0.58 → 0.88): Product reveal fades in on top of the black layer
     tl.to(
       reveal,
-      { opacity: 1, duration: 0.35, ease: "power2.out" },
-      0.50
+      { opacity: 1, duration: 0.30, ease: "power2.out" },
+      0.58
     );
 
     return () => {
@@ -148,10 +154,18 @@ export default function Hero() {
           </div>
         </div>
 
+        {/* Black overlay — fades in when zoomed to just the E middle bar */}
+        <div
+          ref={blackoutRef}
+          className="absolute inset-0 bg-hex-black opacity-0"
+          style={{ zIndex: 2 }}
+        />
+
         {/* Product reveal */}
         <div
           ref={revealRef}
           className="absolute inset-0 flex items-center bg-hex-black px-6 md:px-10 opacity-0"
+          style={{ zIndex: 3 }}
         >
           <div className="mx-auto max-w-6xl w-full">
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
