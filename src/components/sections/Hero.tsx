@@ -13,7 +13,6 @@ export default function Hero() {
   const glowRef = useRef<HTMLHeadingElement>(null);
   const noiseRef = useRef<HTMLDivElement>(null);
   const blackoutRef = useRef<HTMLDivElement>(null);
-  const scrollHintRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
@@ -28,7 +27,6 @@ export default function Hero() {
     const text = textRef.current;
     const reveal = revealRef.current;
     const blackout = blackoutRef.current;
-    const scrollHint = scrollHintRef.current;
     if (!hero || !membrane || !text || !reveal || !blackout) return;
 
     const tl = gsap.timeline({
@@ -41,10 +39,6 @@ export default function Hero() {
         anticipatePin: 1,
       },
     });
-
-    if (scrollHint) {
-      tl.to(scrollHint, { opacity: 0, duration: 0.05, ease: "none" }, 0);
-    }
 
     const glow = glowRef.current;
     const noise = noiseRef.current;
@@ -164,10 +158,16 @@ export default function Hero() {
         {/* Product reveal */}
         <div
           ref={revealRef}
-          className="absolute inset-0 flex items-center bg-hex-black px-6 md:px-10 opacity-0"
+          className="absolute inset-0 bg-hex-black px-6 md:px-10 opacity-0"
           style={{ zIndex: 3 }}
         >
-          <div className="mx-auto max-w-6xl w-full">
+          {/* Nav HEX — fades in with the product reveal */}
+          <div className="py-4">
+            <span className="font-display text-xl font-black tracking-tight text-white">
+              HEX
+            </span>
+          </div>
+          <div className="mx-auto max-w-6xl w-full flex items-center" style={{ height: "calc(100% - 3.5rem)" }}>
             <div className="grid gap-10 md:grid-cols-2 md:items-center">
               <PlaceholderImage
                 label="LED strip on gaming desk"
@@ -190,16 +190,6 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Scroll hint */}
-        <div
-          ref={scrollHintRef}
-          className="absolute bottom-8 left-1/2 z-10 -translate-x-1/2 flex flex-col items-center gap-2 opacity-60"
-        >
-          <span className="text-xs uppercase tracking-[0.25em] text-hex-gray-400 font-body">
-            Scroll
-          </span>
-          <div className="h-8 w-px bg-hex-gray-400 animate-pulse" />
-        </div>
       </div>
     </section>
   );
