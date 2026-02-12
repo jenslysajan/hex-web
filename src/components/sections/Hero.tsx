@@ -9,8 +9,6 @@ export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
   const membraneRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLHeadingElement>(null);
-  const glowRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
   const revealRef = useRef<HTMLDivElement>(null);
   const scrollHintRef = useRef<HTMLDivElement>(null);
 
@@ -25,114 +23,107 @@ export default function Hero() {
     const hero = heroRef.current;
     const membrane = membraneRef.current;
     const text = textRef.current;
-    const glow = glowRef.current;
-    const bar = barRef.current;
     const reveal = revealRef.current;
     const scrollHint = scrollHintRef.current;
-    if (!hero || !membrane || !text || !glow || !bar || !reveal) return;
+    if (!hero || !membrane || !text || !reveal) return;
 
-    // Text starts as color:#111 on bg:#0a0a0a — barely visible, just embossed shadows
+    // Initial: neon edge highlights visible on emboss
     gsap.set(text, {
       color: "#111",
-      textShadow:
-        "-1px -1px 2px rgba(255,255,255,0.04), 1px 1px 3px rgba(0,0,0,0.8)",
+      textShadow: [
+        "2px 2px 4px rgba(0,0,0,0.9)",
+        "-2px -1px 6px #00e5ff35",
+        "1px -2px 6px #bf00ff30",
+        "-1px 1px 5px #00ff8828",
+      ].join(", "),
     });
-    gsap.set(glow, { opacity: 0 });
-    gsap.set(bar, { opacity: 0, scaleX: 0 });
 
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: hero,
         start: "top top",
-        end: "+=250%",
+        end: "+=150%",
         pin: true,
-        scrub: 0.4,
+        scrub: 0.3,
         anticipatePin: 1,
       },
     });
 
-    // Scroll hint fades out
     if (scrollHint) {
       tl.to(scrollHint, { opacity: 0, duration: 0.05, ease: "none" }, 0);
     }
 
-    // Stage 1 (0 → 0.3): Text pushes through — shadow edges intensify
+    // Stage 1 (0 → 0.15): Membrane push — neon glow strengthens
     tl.to(
       text,
       {
-        textShadow:
-          "-2px -2px 4px rgba(255,255,255,0.14), 2px 2px 6px rgba(0,0,0,0.9), 0 0 30px #00e5ff18, 0 0 30px #bf00ff15, 0 0 25px #ff003c12",
-        scale: 1.03,
-        duration: 0.3,
+        textShadow: [
+          "2px 2px 5px rgba(0,0,0,0.9)",
+          "-2px -1px 8px #00e5ff55",
+          "1px -2px 8px #bf00ff48",
+          "-1px 1px 7px #00ff8840",
+        ].join(", "),
+        duration: 0.15,
         ease: "power1.in",
       },
       0
     );
+    tl.to(
+      membrane,
+      { scale: 1.04, duration: 0.15, ease: "power1.in", force3d: true },
+      0
+    );
 
-    // Stage 2 (0.3 → 0.45): Deeper shadows, neon glow appears
+    // Stage 2 (0.15 → 0.30): Neon intensifies
     tl.to(
       text,
       {
-        textShadow:
-          "-3px -3px 6px rgba(255,255,255,0.2), 4px 4px 10px rgba(0,0,0,0.95), 0 0 45px #00e5ff45, 0 0 50px #bf00ff40, 0 0 40px #ff003c30, 0 0 55px #00ff8830, 0 0 45px #ff00aa28",
-        scale: 1.12,
+        textShadow: [
+          "3px 3px 5px rgba(0,0,0,0.95)",
+          "-3px -2px 12px #00e5ff80",
+          "-3px 1px 12px #bf00ff75",
+          "2px -2px 10px #00ff8870",
+          "0px 3px 10px #ff00aa60",
+        ].join(", "),
         duration: 0.15,
         ease: "power2.in",
       },
-      0.3
+      0.15
     );
     tl.to(
-      glow,
-      { opacity: 0.6, duration: 0.15, ease: "power1.in" },
-      0.3
+      membrane,
+      { scale: 1.15, duration: 0.15, ease: "power2.in", force3d: true },
+      0.15
     );
 
-    // Stage 3 (0.45 → 0.65): The center bar of E appears, expands to fill screen
-    // First: fade out the text and glow
+    // Stage 3 (0.30 → 0.65): Zoom through — neon at peak then text fades as we punch in
     tl.to(
       text,
-      { opacity: 0, duration: 0.08, ease: "power1.in" },
-      0.45
-    );
-    tl.to(
-      glow,
-      { opacity: 0, duration: 0.08, ease: "power1.in" },
-      0.45
-    );
-    // Bar appears and stretches horizontally
-    tl.to(
-      bar,
       {
-        opacity: 1,
-        scaleX: 1,
-        duration: 0.06,
-        ease: "power2.out",
-      },
-      0.47
-    );
-    // Bar expands to fill the entire viewport
-    tl.to(
-      bar,
-      {
-        width: "100vw",
-        height: "100vh",
-        borderRadius: "0px",
-        duration: 0.15,
+        textShadow: [
+          "4px 4px 6px rgba(0,0,0,0.95)",
+          "-4px -3px 18px #00e5ffa0",
+          "-4px 2px 18px #bf00ff95",
+          "4px -3px 16px #00ff8890",
+          "0px 5px 16px #ff00aa80",
+        ].join(", "),
+        opacity: 0,
+        duration: 0.35,
         ease: "power2.in",
       },
-      0.53
+      0.30
+    );
+    tl.to(
+      membrane,
+      { scale: 30, duration: 0.35, ease: "power2.in", force3d: true },
+      0.30
     );
 
-    // Stage 4 (0.7 → 1.0): Bar dissolves, product reveal fades in
-    tl.to(
-      bar,
-      { opacity: 0, duration: 0.15, ease: "power1.out" },
-      0.7
-    );
+    // Stage 4 (0.65 → 1.0): Product reveal
     tl.to(
       reveal,
-      { opacity: 1, duration: 0.25, ease: "power1.out" },
-      0.72
+      { opacity: 1, duration: 0.35, ease: "power2.out" },
+      0.65
     );
 
     return () => {
@@ -143,13 +134,12 @@ export default function Hero() {
   return (
     <section aria-label="Hero">
       <div ref={heroRef} className="relative h-screen w-full overflow-hidden bg-hex-black">
-        {/* Membrane surface with embossed text */}
         <div
           ref={membraneRef}
           className="absolute inset-0 flex items-center justify-center"
-          style={{ willChange: "transform" }}
+          style={{ willChange: "transform", transformOrigin: "51% 48.75%" }}
         >
-          {/* Subtle surface noise */}
+          {/* Surface noise */}
           <div
             className="absolute inset-0 opacity-[0.035]"
             style={{
@@ -159,27 +149,7 @@ export default function Hero() {
             }}
           />
 
-          {/* Multi-color neon glow behind text */}
-          <div
-            ref={glowRef}
-            className="absolute opacity-0"
-            style={{
-              width: "60vw",
-              height: "30vw",
-              background: `
-                radial-gradient(ellipse at 20% 40%, #ff003c28 0%, transparent 45%),
-                radial-gradient(ellipse at 80% 40%, #00e5ff40 0%, transparent 45%),
-                radial-gradient(ellipse at 15% 70%, #bf00ff3a 0%, transparent 42%),
-                radial-gradient(ellipse at 85% 65%, #00ff8838 0%, transparent 42%),
-                radial-gradient(ellipse at 50% 25%, #ff6b0035 0%, transparent 40%),
-                radial-gradient(ellipse at 50% 75%, #ff00aa38 0%, transparent 42%),
-                radial-gradient(ellipse at 35% 50%, #4d00ff30 0%, transparent 40%)
-              `,
-              filter: "blur(30px)",
-            }}
-          />
-
-          {/* "HEX" — starts as dark-on-dark embossed indent */}
+          {/* "HEX" — embossed with neon-colored highlight edges */}
           <h1
             ref={textRef}
             className="relative select-none font-display"
@@ -193,24 +163,9 @@ export default function Hero() {
           >
             HEX
           </h1>
-
-          {/* Center bar — positioned over the E's middle dash, expands to fill screen */}
-          <div
-            ref={barRef}
-            className="absolute opacity-0"
-            style={{
-              width: "5.5vw",
-              height: "clamp(0.9rem, 2.5vw, 2.2rem)",
-              borderRadius: "2px",
-              backgroundColor: "#111",
-              willChange: "transform, width, height",
-              /* Offset slightly right to align with E's center bar */
-              marginLeft: "1.5vw",
-            }}
-          />
         </div>
 
-        {/* Product reveal content */}
+        {/* Product reveal */}
         <div
           ref={revealRef}
           className="absolute inset-0 flex items-center bg-hex-black px-6 opacity-0 md:px-10"
